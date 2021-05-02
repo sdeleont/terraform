@@ -16,6 +16,7 @@ steps:
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/azure-terraform/kubernetes'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(public.secureFilePath)'
     backendType: 'azurerm'
     backendServiceArm: 'Azure-resource-storon'
     ensureBackend: true
@@ -24,4 +25,3 @@ steps:
     backendAzureRmStorageAccountName: 'storageSt'
     backendAzureRmContainerName: 'storageStContainer'
     backendAzureRmKey: 'kubernetes-dev.tfstate'
-    allowTelemetryCollection: true
