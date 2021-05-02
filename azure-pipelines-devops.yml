@@ -25,3 +25,4 @@ steps:
     backendAzureRmStorageAccountName: 'storageSt'
     backendAzureRmContainerName: 'storageStContainer'
     backendAzureRmKey: 'kubernetes-dev.tfstate'
+    allowTelemetryCollection: true
