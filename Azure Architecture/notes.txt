@@ -1,0 +1,22 @@
+Arquitectura:
+
+Cliente: Representa el usuario o la aplicación que realiza solicitudes a través de internet.
+
+Web Application Firewall (WAF): Actúa como un firewall de aplicaciones web para proteger la aplicación contra amenazas comunes en la web.
+
+API Gateway: Proporciona una interfaz unificada para varias funciones, como la autenticación, autorización, monitoreo y enrutamiento de solicitudes a los servicios backend.
+
+App Service: Es un servicio que permite implementar y escalar aplicaciones web, móviles y de API.
+
+Load Balancer: Distribuye el tráfico de red entrante a través de varias instancias de App Service para garantizar la disponibilidad y la escalabilidad.
+
+Cosmos DB con MongoDB: Base de datos globalmente distribuida y multimodelo que utiliza el motor MongoDB para almacenar datos.
+
+Flujo:
+
+El cliente realiza una solicitud HTTP a través de Internet.
+La solicitud pasa a través del WAF para la detección y filtrado de posibles amenazas.
+La solicitud se enruta al API Gateway que maneja la autenticación, autorización y enrutamiento.
+El API Gateway redirige la solicitud al App Service correspondiente.
+El Load Balancer distribuye el tráfico entre múltiples instancias del App Service para garantizar la disponibilidad.
+El App Service puede realizar operaciones en la base de datos Cosmos DB con MongoDB para recuperar o almacenar datos.
