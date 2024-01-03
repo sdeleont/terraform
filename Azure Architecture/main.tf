@@ -98,6 +98,25 @@ resource "azurerm_service_plan" "architecture-app-plan" {
   sku_name = "Y1"  ##free grant 1 million requests
 }
 
+## set up service bus
+resource "azurerm_servicebus_namespace" "arquitecture-sbusn" {
+  name                = var.servicebus-namespace
+  location            = azurerm_resource_group.architecture-rg.location
+  resource_group_name = azurerm_resource_group.architecture-rg.name
+  sku                 = "Standard"
+
+  tags = {
+    source = "azurefunction"
+  }
+}
+
+resource "azurerm_servicebus_queue" "architecture-sbusqueue" {
+  name         = var.servicebus-queue1
+  namespace_id = azurerm_servicebus_namespace.arquitecture-sbusn.id
+
+  enable_partitioning = true
+}
+
 ## 3 set up azure function app
 resource "azurerm_linux_function_app" "example" {
   name                = var.functionapp-name
@@ -116,26 +135,8 @@ resource "azurerm_linux_function_app" "example" {
     "EventHubConsumerGroup"    = "$Default"
     "EventHubName"             = azurerm_eventhub.architecture-eventhub.name
     "FUNCTIONS_EXTENSION_VERSION" = "~3"
+    "ServiceBusConnectionString": azurerm_servicebus_namespace.arquitecture-sbusn.default_primary_connection_string
   }
-}
-
-## set up service bus
-resource "azurerm_servicebus_namespace" "arquitecture-sbusn" {
-  name                = var.servicebus-namespace
-  location            = azurerm_resource_group.architecture-rg.location
-  resource_group_name = azurerm_resource_group.architecture-rg.name
-  sku                 = "Standard"
-
-  tags = {
-    source = "azurefunction"
-  }
-}
-
-resource "azurerm_servicebus_queue" "architecture-sbusqueue" {
-  name         = var.servicebus-queue1
-  namespace_id = azurerm_servicebus_namespace.arquitecture-sbusn.id
-
-  enable_partitioning = true
 }
 
 ## set up a container with a basic container
