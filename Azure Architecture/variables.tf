@@ -47,3 +47,7 @@ variable "servicebus-queue1" {
 variable "aci-instance" {
   description = "The name of the ACI"
 }
+
+variable "acr-instance" {
+  description = "The name of the ACR"
+}

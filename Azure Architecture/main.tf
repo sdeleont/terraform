@@ -127,7 +127,9 @@ resource "azurerm_linux_function_app" "example" {
   storage_account_access_key = azurerm_storage_account.architecture-sta.primary_access_key
   service_plan_id            = azurerm_service_plan.architecture-app-plan.id
 
-  site_config {}
+  site_config {
+    
+  }
   ## set up the trigger that will be executed when a new event is created
   app_settings = {
     "AzureWebJobsStorage" = azurerm_storage_account.architecture-sta.primary_connection_string
@@ -137,6 +139,14 @@ resource "azurerm_linux_function_app" "example" {
     "FUNCTIONS_EXTENSION_VERSION" = "~3"
     "ServiceBusConnectionString": azurerm_servicebus_namespace.arquitecture-sbusn.default_primary_connection_string
   }
+}
+## set up container registry
+resource "azurerm_container_registry" "acr" {
+  name                = var.acr-instance
+  resource_group_name = azurerm_resource_group.architecture-rg.name
+  location            = azurerm_resource_group.architecture-rg.location
+  sku                 = "Standard"
+  admin_enabled       = false
 }
 
 ## set up a container with a basic container
