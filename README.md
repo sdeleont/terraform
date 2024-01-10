@@ -1,6 +1,4 @@
-# terraform
-This repository is used for terraform
-# 1) Azure Architecture with Terraform
+# 1) Azure Architecture Event hub, Azure Function, Service Bus, Container and CosmosDB
 
 ![Azure Architecture](/Azure%20Architecture/Azure%20Architecture1.jpg)
 
