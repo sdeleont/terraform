@@ -40,4 +40,38 @@ This repository contains Terraform configuration to deploy an Azure architecture
 - Review and customize configurations based on specific requirements.
 - Keep sensitive information such as keys and passwords secure.
 
-Thank you for using this project! If you have any questions, feel free to contact me.
+
+# 2) Azure Virtual Network Architecture
+
+![Virtual Network Architecture](/VNet%20and%20SubNets/VirtualNetwork.jpg)
+
+## Overview
+
+This repository contains Terraform configuration to deploy a Virtual Network architecture in Azure. The architecture includes a Virtual Network (VNet) with three subnets finance, HR, and development each associated with a Network Security Group (NSG) to enforce specific security rules.
+
+## Created Resources
+
+### 1. Resource Group
+   A container for managing and organizing Azure resources.
+
+### 2. Virtual Network (VNet)
+   A logically isolated network for deploying Azure resources.
+
+### 3. Finance Subnet
+   Subnet dedicated to finance operations with specific outbound rules.
+
+### 4. HR Subnet
+   Subnet dedicated to HR operations with specific outbound rules.
+
+### 5. Development Subnet
+   Subnet dedicated to development with inbound and outbound rules for development services.
+
+## Implementation Instructions
+
+1. Clone this repository.
+2. Run `terraform init` followed by `terraform apply` to deploy the architecture in Azure.
+
+## Important Notes
+
+- Review and customize configurations based on specific requirements.
+- Keep sensitive information such as keys and passwords secure.
