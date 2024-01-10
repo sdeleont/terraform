@@ -84,6 +84,40 @@ resource "azurerm_subnet_network_security_group_association" "finance-group" {
   subnet_id                 = azurerm_subnet.finance.id
   network_security_group_id = azurerm_network_security_group.finance-nsg.id
 }
+resource "azurerm_network_interface" "finance-nic" {
+  name                = "finance-nic"
+  location            = azurerm_resource_group.vmanagement_group.location
+  resource_group_name = azurerm_resource_group.vmanagement_group.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.finance.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+resource "azurerm_windows_virtual_machine" "backendfinance-vm" {
+  name                = "backendfinance-vm"
+  resource_group_name = azurerm_resource_group.vmanagement_group.name
+  location            = azurerm_resource_group.vmanagement_group.location
+  size                = "Standard_F2"
+  admin_username      = "adminuser"
+  admin_password      = "P@$$w0rd1234!"
+  network_interface_ids = [
+    azurerm_network_interface.finance-nic.id,
+  ]
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter"
+    version   = "latest"
+  }
+}
 
 #HR subnet
 resource "azurerm_network_security_group" "hr-nsg" {
@@ -102,6 +136,8 @@ resource "azurerm_network_security_group" "hr-nsg" {
     destination_address_prefix = "banking-sites.com"
   }
 }
+
+
 resource "azurerm_subnet" "hr" {
   name                 = "hr-subnet"
   resource_group_name  = azurerm_resource_group.vmanagement_group.name
@@ -112,7 +148,40 @@ resource "azurerm_subnet_network_security_group_association" "hr-group" {
   subnet_id                 = azurerm_subnet.hr.id
   network_security_group_id = azurerm_network_security_group.hr-nsg.id
 }
+resource "azurerm_network_interface" "hr-nic" {
+  name                = "hr-nic"
+  location            = azurerm_resource_group.vmanagement_group.location
+  resource_group_name = azurerm_resource_group.vmanagement_group.name
 
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.hr.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+resource "azurerm_windows_virtual_machine" "backendhr-vm" {
+  name                = "backendhr-vm"
+  resource_group_name = azurerm_resource_group.vmanagement_group.name
+  location            = azurerm_resource_group.vmanagement_group.location
+  size                = "Standard_F2"
+  admin_username      = "adminuser"
+  admin_password      = "P@$$w0rd1234!"
+  network_interface_ids = [
+    azurerm_network_interface.hr-nic.id,
+  ]
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter"
+    version   = "latest"
+  }
+}
 #Development subnet
 resource "azurerm_network_security_group" "development-nsg" {
   name                = "development-nsg"
@@ -163,4 +232,38 @@ resource "azurerm_subnet" "development" {
 resource "azurerm_subnet_network_security_group_association" "development-group" {
   subnet_id                 = azurerm_subnet.development.id
   network_security_group_id = azurerm_network_security_group.development-nsg.id
+}
+resource "azurerm_network_interface" "development-nic" {
+  name                = "development-nic"
+  location            = azurerm_resource_group.vmanagement_group.location
+  resource_group_name = azurerm_resource_group.vmanagement_group.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.development.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+resource "azurerm_windows_virtual_machine" "backenddevelopment-vm" {
+  name                = "backenddevelopment-vm"
+  resource_group_name = azurerm_resource_group.vmanagement_group.name
+  location            = azurerm_resource_group.vmanagement_group.location
+  size                = "Standard_F2"
+  admin_username      = "adminuser"
+  admin_password      = "P@$$w0rd1234!"
+  network_interface_ids = [
+    azurerm_network_interface.development-nic.id,
+  ]
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter"
+    version   = "latest"
+  }
 }
